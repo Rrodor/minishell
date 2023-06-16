@@ -50,6 +50,7 @@ int main()
 	while(1)
 	{
 		str = readline("minishell >> ");
+		add_history(str);
 		if (ft_strncmp(str, "exit", 4) == 0)
 		{
 			free(str);
