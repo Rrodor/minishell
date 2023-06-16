@@ -20,6 +20,29 @@ void	ms_pwd(void)
 	free (buf);
 }
 
+void	ms_cd(char *str)
+{
+	int	i;
+	int	j;
+	char	*path;
+
+	i = 2;
+	j = 0;
+	while (str[i] == ' ')
+		i++;
+	while (str[i + j] && str[i + j] != ' ')
+		j++;
+	path = malloc (sizeof(char) * (j + 1));
+	j = 0;
+	while (str[i + j] && str[i + j] != ' ')
+	{
+		path[j] = str[i + j];
+		j++;
+	}
+	path[j] = 0;
+	chdir(path);
+}
+
 int main()
 {
 	char *str;
@@ -35,7 +58,7 @@ int main()
 		else if (ft_strncmp(str, "pwd", 3) == 0)
 			ms_pwd();
 		else if (ft_strncmp(str, "cd", 2) == 0)
-	
+			ms_cd(str);
 		else
 		{
 			ft_printf("command not found :%s\n", str);
