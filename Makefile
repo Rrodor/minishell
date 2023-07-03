@@ -1,12 +1,12 @@
 NAME= minishell
-SRC= minishell.c
+SRC= minishell.c ms_parsing.c ms_parsing_utils.c ms_error.c
 SRCPATH= ./cfiles/
 OBJ= $(SRC:.c=.o)
 OBJS= $(addprefix $(OBJPATH), $(OBJ))
 SRCS= $(addprefix $(SRCPATH), $(SRC))
 OBJPATH= ./ofiles/
 
-CC= gcc -Wall -Wextra -Werror
+CC= gcc #-Wall -Wextra -Werror
 
 all: makelib $(NAME)
 

@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rrodor <rrodor@student.42perpignan.fr>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/06/16 17:32:05 by rrodor            #+#    #+#             */
+/*   Updated: 2023/07/03 18:42:12 by rrodor           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "minishell.h"
 
@@ -22,8 +33,8 @@ void	ms_pwd(void)
 
 void	ms_cd(char *str)
 {
-	int	i;
-	int	j;
+	int		i;
+	int		j;
 	char	*path;
 
 	i = 2;
@@ -43,14 +54,30 @@ void	ms_cd(char *str)
 	chdir(path);
 }
 
-int main()
+int	main()
 {
-	char *str;
+	char	*str;
+	t_list	*list;
+	int		i;
+	int		**tab;
 
-	while(1)
+	while (1)
 	{
 		str = readline("minishell >> ");
-		add_history(str);
+		list = ms_parsing(str);
+		while (list)
+		{
+			/*i = 0;
+			tab = (int **) list->content;
+			while (tab[i])
+			{
+				ft_printf("tab[%d] = %c\n", i, tab[i]);
+				i++;
+			}*/
+			printf("list->content = %s\n", (char *) list->content);
+			list = list->next;
+		}
+		add_history(str);/*
 		if (ft_strncmp(str, "exit", 4) == 0)
 		{
 			free(str);
@@ -64,7 +91,7 @@ int main()
 		{
 			ft_printf("command not found :%s\n", str);
 			free(str);
-		}
+		}*/
 	}
-	return 0;
+	return (0);
 }
