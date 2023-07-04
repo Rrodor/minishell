@@ -6,11 +6,26 @@
 /*   By: rrodor <rrodor@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 17:32:05 by rrodor            #+#    #+#             */
-/*   Updated: 2023/07/03 18:42:12 by rrodor           ###   ########.fr       */
+/*   Updated: 2023/07/04 11:58:53 by rrodor           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	ms_printlist(void *s)
+{
+	char **str;
+	int i;
+
+	str = s;
+	i = 0;
+	while (str[i])
+	{
+		ft_printf("%s  ~  ", str[i]);
+		i++;
+	}
+	ft_printf("\n");
+}
 
 void	ms_pwd(void)
 {
@@ -65,18 +80,7 @@ int	main()
 	{
 		str = readline("minishell >> ");
 		list = ms_parsing(str);
-		while (list)
-		{
-			/*i = 0;
-			tab = (int **) list->content;
-			while (tab[i])
-			{
-				ft_printf("tab[%d] = %c\n", i, tab[i]);
-				i++;
-			}*/
-			printf("list->content = %s\n", (char *) list->content);
-			list = list->next;
-		}
+		ft_lstiter(list, ms_printlist);
 		add_history(str);/*
 		if (ft_strncmp(str, "exit", 4) == 0)
 		{

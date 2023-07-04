@@ -6,7 +6,7 @@
 /*   By: rrodor <rrodor@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 17:12:14 by rrodor            #+#    #+#             */
-/*   Updated: 2023/07/03 23:41:35 by rrodor           ###   ########.fr       */
+/*   Updated: 2023/07/04 12:00:27 by rrodor           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ t_list	*ms_parsing(char *str)
 	line = ft_strtrim(str, " ");
 	if (!ms_error(line))
 		return (NULL);
-	ft_printf("error\n");
 	list = ms_firstsplit(line);
+	list = ms_listsplit(list);
 	return (list);
 }
 
@@ -86,23 +86,24 @@ char	*ms_fsspecial(char *line, int *i, char *str, t_list **list)
 	return (str);
 }
 
-/*t_list	*ms_listsplit(t_list *oldlist)
+t_list	*ms_listsplit(t_list *oldlist)
 {
 	t_list	*list;
 	char	**tab;
+	char	*str;
 
 	list = NULL;
 	while (oldlist)
 	{
-
-		if (oldlist->content == '|')
-			ft_lstadd_back(list, ft_lstnew(ft_strdup("|")));
+		str = oldlist->content;
+		if (str[0] == '|' || str[0] == '<' || str[0] == '>')
+			ft_lstadd_back(&list, ft_lstnew(ms_strtotab(str)));
 		else
 		{
 			tab = ft_split(oldlist->content, ' ');
-			ft_lstadd_back(&list, ft_lstnew(ft_strdup(oldlist->content)));
+			ft_lstadd_back(&list, ft_lstnew(ms_tabdup(tab)));
 		}
 		oldlist = oldlist->next;
 	}
 	return (list);
-}*/
+}
