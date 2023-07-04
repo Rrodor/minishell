@@ -6,7 +6,7 @@
 /*   By: rrodor <rrodor@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 15:13:44 by rrodor            #+#    #+#             */
-/*   Updated: 2023/07/04 11:57:43 by rrodor           ###   ########.fr       */
+/*   Updated: 2023/07/04 15:35:33 by rrodor           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,13 @@ t_list	*ms_firstsplit(char *line);
 char	*ms_fsquote(char *line, int *i, char *str, t_list **list);
 char	*ms_fsspecial(char *line, int *i, char *str, t_list **list);
 t_list	*ms_listsplit(t_list *oldlist);
+
+// ms_parsing2.c
+char	**ms_split2(char *str);
+char	*ms_splitquote(char	*str, int *i, int *j);
+char	*ms_splitredir(char *str, int *i, int *j);
+int		ms_numword(char *str);
+int		ms_numword2(char *str, int i);
 
 // ms_parsing_utils.c
 char	*ms_strjoinc(char *str, char c);

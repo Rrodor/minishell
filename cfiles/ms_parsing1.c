@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ms_parsing.c                                       :+:      :+:    :+:   */
+/*   ms_parsing1.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rrodor <rrodor@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 17:12:14 by rrodor            #+#    #+#             */
-/*   Updated: 2023/07/04 12:00:27 by rrodor           ###   ########.fr       */
+/*   Updated: 2023/07/04 15:23:14 by rrodor           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ t_list	*ms_listsplit(t_list *oldlist)
 			ft_lstadd_back(&list, ft_lstnew(ms_strtotab(str)));
 		else
 		{
-			tab = ft_split(oldlist->content, ' ');
+			tab = ms_split2(oldlist->content, ' ');
 			ft_lstadd_back(&list, ft_lstnew(ms_tabdup(tab)));
 		}
 		oldlist = oldlist->next;
