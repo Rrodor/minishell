@@ -1,25 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstnew.c                                        :+:      :+:    :+:   */
+/*   ms_env.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aramon <aramon@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/08 18:05:25 by rrodor            #+#    #+#             */
-/*   Updated: 2023/07/05 19:29:56 by aramon           ###   ########.fr       */
+/*   Created: 2023/07/05 21:19:42 by aramon            #+#    #+#             */
+/*   Updated: 2023/07/13 18:54:07 by aramon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../hfiles/minishell.h"
 
-t_list	*ft_lstnew(void *content)
+void    ms_env(t_env *env)
 {
-	t_list	*init;
+    t_env   *tmp;
 
-	init = malloc(sizeof(t_list));
-	if (!init)
-		return (0);
-	init->content = content;
-	init->next = 0;
-	return (init);
+    tmp = env;
+    while (tmp)
+    {
+        ft_printf("%s=%s\n", tmp->name, tmp->content);
+        tmp = tmp->next;
+    }
+    free(tmp);
 }

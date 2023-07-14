@@ -1,25 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstnew.c                                        :+:      :+:    :+:   */
+/*   ms_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aramon <aramon@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/08 18:05:25 by rrodor            #+#    #+#             */
-/*   Updated: 2023/07/05 19:29:56 by aramon           ###   ########.fr       */
+/*   Created: 2023/07/12 20:39:38 by aramon            #+#    #+#             */
+/*   Updated: 2023/07/13 21:15:30 by aramon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../hfiles/minishell.h"
 
-t_list	*ft_lstnew(void *content)
+void	ms_cd(char *str)
 {
-	t_list	*init;
+	int		i;
+	int		j;
+	char	*path;
 
-	init = malloc(sizeof(t_list));
-	if (!init)
-		return (0);
-	init->content = content;
-	init->next = 0;
-	return (init);
+	i = 2;
+	j = 0;
+	while (str[i] == ' ')
+		i++;
+	while (str[i + j] && str[i + j] != ' ')
+		j++;
+	path = malloc (sizeof(char) * (j + 1));
+	j = 0;
+	while (str[i + j] && str[i + j] != ' ')
+	{
+		path[j] = str[i + j];
+		j++;
+	}
+	path[j] = 0;
+	chdir(path);
 }

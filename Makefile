@@ -1,5 +1,5 @@
 NAME= minishell
-SRC= minishell.c ms_parsing1.c ms_parsing2.c ms_parsing_utils.c ms_error.c
+SRC= minishell.c ms_parsing1.c ms_parsing2.c ms_parsing_utils.c ms_error.c ms_export.c ms_env_utils.c ms_env.c ms_unset.c ms_command_utils.c ms_pwd.c ms_cd.c ms_echo.c ms_redir.c
 SRCPATH= ./cfiles/
 OBJ= $(SRC:.c=.o)
 OBJS= $(addprefix $(OBJPATH), $(OBJ))
