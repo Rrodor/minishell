@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aramon <aramon@student.42perpignan.fr>     +#+  +:+       +#+        */
+/*   By: rrodor <rrodor@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 17:32:05 by rrodor            #+#    #+#             */
-/*   Updated: 2023/07/14 15:58:36 by aramon           ###   ########.fr       */
+/*   Updated: 2023/07/15 15:17:55 by rrodor           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ int main()
 		pids[i] = fork();
 		if (pids[i] == -1)
 			exit(EXIT_FAILURE);
-		
+
 		// Child process
 		if (pids[i] == 0)
 		{
@@ -171,6 +171,7 @@ void	init_minishell(t_minishell **minishell)
 		ms->parse = ms_parsing(ms->line);
 		//ft_lstiter(ms->parse, ms_printlist);
 		add_history(ms->line);
+		ms_redirect(ms->parse);
 		if (ft_strncmp(ms->line, "exit", 4) == 0)
 		{
 			free(ms->line);
@@ -198,7 +199,7 @@ void	init_minishell(t_minishell **minishell)
 	return (0);
 }*/
 
-int main()
+/*int main()
 {
 	int 		i;
 	t_minishell *ms;
@@ -226,5 +227,26 @@ int main()
 		}
 	}
 
+	return (0);
+}*/
+
+int main(int argc, char **argv, char **env)
+{
+	int 		i;
+	char		*str;
+	t_list		*list;
+
+	while (1)
+	{
+		str = readline("minishell~");
+		list = ms_parsing(str);
+		if (!list)
+			free(str);
+		else
+		{
+			add_history(str);
+			ms_central(list, env);
+		}
+	}
 	return (0);
 }

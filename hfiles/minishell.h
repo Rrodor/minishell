@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aramon <aramon@student.42perpignan.fr>     +#+  +:+       +#+        */
+/*   By: rrodor <rrodor@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 15:13:44 by rrodor            #+#    #+#             */
-/*   Updated: 2023/07/14 01:43:25 by aramon           ###   ########.fr       */
+/*   Updated: 2023/07/16 19:26:21 by rrodor           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <unistd.h>
 # include "../libft2/libft.h"
 # include <sys/types.h>
+# include <sys/wait.h>
 # include <fcntl.h>
 
 typedef struct 		s_minishell t_minishell;
@@ -35,7 +36,7 @@ typedef struct 		s_minishell
 {
 	char			*line; // User input
 	int				nb_cmd;	// Number of commands
-	t_env			*env; // Environment variables
+	char			**env; // Environment variables
 	pid_t			*pids; // Process ID
 	int				*fds; // File descriptors
 	t_list			*parse; // parsing result
@@ -99,5 +100,15 @@ char *clean_command(char *keyword, char *command);
 // ms_redir.c
 void    ms_redir_out(const char *cmd);
 void    ms_redir_in(const char *cmd);
+
+// ms_exec.c
+char	*ms_check_path(char *cmd, char **ev);
+int		ms_exec(char **cmd, char **env);
+int		ms_central(t_list *parse, char **env);
+void	ms_execpath(char **av, char **ev);
+char	*ms_getpath(char *path, char **env);
+
+//ms_pipe.c
+int		ms_pipe(t_list **parse, char **env);
 
 #endif
