@@ -6,7 +6,7 @@
 /*   By: rrodor <rrodor@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 17:32:05 by rrodor            #+#    #+#             */
-/*   Updated: 2023/07/15 15:17:55 by rrodor           ###   ########.fr       */
+/*   Updated: 2023/07/18 17:49:09 by rrodor           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -239,7 +239,7 @@ int main(int argc, char **argv, char **env)
 	while (1)
 	{
 		str = readline("minishell~");
-		list = ms_parsing(str);
+		list = ms_parsing(str, env);
 		if (!list)
 			free(str);
 		else

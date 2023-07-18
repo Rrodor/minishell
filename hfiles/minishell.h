@@ -6,7 +6,7 @@
 /*   By: rrodor <rrodor@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 15:13:44 by rrodor            #+#    #+#             */
-/*   Updated: 2023/07/17 22:02:27 by rrodor           ###   ########.fr       */
+/*   Updated: 2023/07/18 18:43:25 by rrodor           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,16 +44,16 @@ typedef struct 		s_minishell
 }					t_minishell;
 
 // ms_parsing.c
-t_list	*ms_parsing(char *line);
+t_list	*ms_parsing(char *line, char **env);
 t_list	*ms_pipesplit(char *line);
 t_list	*ms_firstsplit(char *line);
 char	*ms_fsquote(char *line, int *i, char *str, t_list **list);
 char	*ms_fsspecial(char *line, int *i, char *str, t_list **list);
-t_list	*ms_listsplit(t_list *oldlist);
+t_list	*ms_listsplit(t_list *oldlist, char **env);
 
 // ms_parsing2.c
-char	**ms_split2(char *str);
-char	*ms_splitquote(char	*str, int *i, int *j);
+char	**ms_split2(char *str, char **env);
+char	*ms_splitquote(char	*str, int *i, int *j, char **env);
 char	*ms_splitredir(char *str, int *i, int *j);
 int		ms_numword(char *str);
 int		ms_numword2(char *str, int i);
@@ -62,6 +62,7 @@ int		ms_numword2(char *str, int i);
 char	*ms_strjoinc(char *str, char c);
 char	**ms_tabdup(char **oldtab);
 char	**ms_strtotab(char *str);
+char	**ms_envvar(char **tab, char **env);
 
 // error.c
 int		ms_error(char *line);
@@ -121,5 +122,10 @@ void	ms_redirin(t_list *av, char **env);
 //ms_heredoc.c
 void	here_doc_loop(char *av, int *fd);
 void	here_doc(char *av, int ac);
+
+//ms_dollar.c
+char	*ms_splitdollar(char *str, int *i, char **env);
+char	*ms_dollarquote(char *str, char **env);
+char	*ms_getenvvar(char *var, char **env);
 
 #endif

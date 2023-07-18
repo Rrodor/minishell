@@ -6,7 +6,7 @@
 /*   By: rrodor <rrodor@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 21:56:05 by rrodor            #+#    #+#             */
-/*   Updated: 2023/07/17 22:02:51 by rrodor           ###   ########.fr       */
+/*   Updated: 2023/07/18 15:27:02 by rrodor           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,10 @@ void	here_doc_loop(char *av, int *fd)
 	close(fd[0]);
 	while (1)
 	{
+		ft_printf("> ");
 		line = get_next_line(0);
-		if (ft_strncmp(line, av, ft_strlen(line)) == 0)
-			exit(EXIT_SUCCESS);
+		if (ft_strncmp(line, av, ft_strlen(line) - 1) == 0)
+			exit(0);
 		write(fd[1], line, ft_strlen(line));
 		free(line);
 	}

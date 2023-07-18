@@ -6,7 +6,7 @@
 /*   By: rrodor <rrodor@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 13:58:36 by rrodor            #+#    #+#             */
-/*   Updated: 2023/07/17 21:59:18 by rrodor           ###   ########.fr       */
+/*   Updated: 2023/07/18 15:25:17 by rrodor           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,9 @@ void	ms_pipe(t_list *av, char **env)
 	else if (ft_strncmp(sep[0], "<<", 2) == 0)
 	{
 		tmp = av->next->next->content;
+		//ft_printf("end of heredoc : %s\n", tmp[0]);
 		here_doc(tmp[0], 1);
+
 	}
 	else if (ft_strncmp(sep[0], ">>", 2) == 0)
 		ms_rediroutdouble(av, env);
@@ -74,6 +76,11 @@ int	ms_specialsep(t_list **parse, char **env)
 			sep = tmp->next->content;
 			if (sep && ft_strncmp(sep[0], "|", 1) == 0)
 				tmp = tmp->next->next;
+			if (sep && ft_strncmp(sep[0], "<<", 2) == 0)
+			{
+				tmp->next->next->content = tmp->content;
+				tmp = tmp->next->next;
+			}
 			else
 				tmp = NULL;
 		}

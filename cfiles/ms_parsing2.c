@@ -6,7 +6,7 @@
 /*   By: rrodor <rrodor@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 12:13:52 by rrodor            #+#    #+#             */
-/*   Updated: 2023/07/04 16:03:52 by rrodor           ###   ########.fr       */
+/*   Updated: 2023/07/18 18:28:33 by rrodor           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ char	*ms_splitword(char *str, int *i, int *j)
 	return (line);
 }
 
-char	*ms_splitquote(char	*str, int *i, int *j)
+char	*ms_splitquote(char	*str, int *i, int *j, char **env)
 {
 	char	*line;
 	int		k;
@@ -93,10 +93,12 @@ char	*ms_splitquote(char	*str, int *i, int *j)
 	line[k] = '\0';
 	(*i)++;
 	(*j)++;
+	if (c == '"')
+		line = ms_dollarquote(line, env);
 	return (line);
 }
 
-char	**ms_split2(char *str)
+char	**ms_split2(char *str, char	**env)
 {
 	char	**tab;
 	int		i;
@@ -112,8 +114,10 @@ char	**ms_split2(char *str)
 	{
 		while (str[i] && str[i] == ' ')
 			i++;
-		if (str[i] == '"' || str[i] == '\'')
-			tab[j] = ms_splitquote(str, &i, &j);
+		if (str[i] == '$')
+			tab[j++] = ms_splitdollar(str, &i, env);
+		else if (str[i] == '"' || str[i] == '\'')
+			tab[j] = ms_splitquote(str, &i, &j, env);
 		else if (str[i] != ' ')
 			tab[j] = ms_splitword(str, &i, &j);
 		while (str[i] && str[i] == ' ')

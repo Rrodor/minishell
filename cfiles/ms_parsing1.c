@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ms_parsing1.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aramon <aramon@student.42perpignan.fr>     +#+  +:+       +#+        */
+/*   By: rrodor <rrodor@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 17:12:14 by rrodor            #+#    #+#             */
-/*   Updated: 2023/07/13 21:38:22 by aramon           ###   ########.fr       */
+/*   Updated: 2023/07/18 17:52:53 by rrodor           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_list	*ms_parsing(char *str)
+t_list	*ms_parsing(char *str, char **env)
 {
 	t_list	*list;
 	char	*line;
@@ -22,7 +22,7 @@ t_list	*ms_parsing(char *str)
 	if (!ms_error(line))
 		return (NULL);
 	list = ms_firstsplit(line);
-	list = ms_listsplit(list);
+	list = ms_listsplit(list, env);
 	return (list);
 }
 
@@ -86,7 +86,7 @@ char	*ms_fsspecial(char *line, int *i, char *str, t_list **list)
 	return (str);
 }
 
-t_list	*ms_listsplit(t_list *oldlist)
+t_list	*ms_listsplit(t_list *oldlist, char	**env)
 {
 	t_list	*list;
 	char	**tab;
@@ -100,7 +100,8 @@ t_list	*ms_listsplit(t_list *oldlist)
 			ft_lstadd_back(&list, ft_lstnew(ms_strtotab(str)));
 		else
 		{
-			tab = ms_split2(oldlist->content);
+			tab = ms_split2(oldlist->content, env);
+			//tab = ms_envvar(tab);
 			ft_lstadd_back(&list, ft_lstnew(ms_tabdup(tab)));
 		}
 		oldlist = oldlist->next;

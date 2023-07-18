@@ -6,7 +6,7 @@
 /*   By: rrodor <rrodor@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 17:11:16 by rrodor            #+#    #+#             */
-/*   Updated: 2023/07/04 12:06:24 by rrodor           ###   ########.fr       */
+/*   Updated: 2023/07/18 18:07:41 by rrodor           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,5 +78,31 @@ char	**ms_strtotab(char *str)
 		return (NULL);
 	tab[0] = ft_strdup(str);
 	tab[1] = NULL;
+	return (tab);
+}
+
+char	**ms_envvar(char **tab, char **env)
+{
+	int		i;
+	int		j;
+	char	*tmp;
+
+	i = 0;
+	while (tab[i])
+	{
+		j = 0;
+		while (tab[i][j])
+		{
+			if (tab[i][j] == '$')
+			{
+				tmp = ms_check_path(tab[i], env);
+				free(tab[i]);
+				tab[i] = ft_strdup(tmp);
+				free(tmp);
+			}
+			j++;
+		}
+		i++;
+	}
 	return (tab);
 }
