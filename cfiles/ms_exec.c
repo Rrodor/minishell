@@ -6,7 +6,7 @@
 /*   By: rrodor <rrodor@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 12:11:20 by rrodor            #+#    #+#             */
-/*   Updated: 2023/07/16 19:28:02 by rrodor           ###   ########.fr       */
+/*   Updated: 2023/07/17 21:23:20 by rrodor           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,17 +54,12 @@ void	ms_execpath(char **av, char **ev)
 
 void	ms_execpath2(char **av, char **ev)
 {
-	int		i;
 	char	*path;
 	pid_t	pid;
 
-	i = -1;
 	path = ms_check_path(av[0], ev);
 	if (!path)
-	{
-		//free_array(av);
 		exit(2);
-	}
 	pid = fork();
 	if (pid == -1)
 		return ;
@@ -91,22 +86,14 @@ int	ms_exec(char **cmd, char **env)
 		ms_pwd();
 	else if (ft_strncmp(cmd[0], "cd", 2) == 0)
 		ms_cd(cmd[1]);
-	else if (ft_strncmp(cmd[0], "echo", 4) == 0)
-		ms_echo(cmd[1], 1);
+	//else if (ft_strncmp(cmd[0], "echo", 4) == 0)
+	//	ms_echo(cmd, 1);
 	else
 		ms_execpath2(cmd, env);
 }
 
 int ms_central(t_list *parse, char **env)
 {
-	if (ft_lstsize(parse) == 1)
-	{
-		ms_exec((char **) parse->content, env);
+		ms_specialsep(&parse, env);
 		return (0);
-	}
-	else
-	{
-		ms_pipe(&parse, env);
-		return (0);
-	}
 }

@@ -6,7 +6,7 @@
 /*   By: rrodor <rrodor@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 15:13:44 by rrodor            #+#    #+#             */
-/*   Updated: 2023/07/16 19:26:21 by rrodor           ###   ########.fr       */
+/*   Updated: 2023/07/17 22:02:27 by rrodor           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <readline/history.h>
 # include <unistd.h>
 # include "../libft2/libft.h"
+# include "../libft2/get_next_line.h"
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <fcntl.h>
@@ -107,8 +108,18 @@ int		ms_exec(char **cmd, char **env);
 int		ms_central(t_list *parse, char **env);
 void	ms_execpath(char **av, char **ev);
 char	*ms_getpath(char *path, char **env);
+int		ms_specialsep(t_list **parse, char **env);
 
 //ms_pipe.c
-int		ms_pipe(t_list **parse, char **env);
+void	ms_pipe(t_list *av, char **env);
+
+//ms_redirect.c
+void	ms_redirout(t_list *av, char **env);
+void	ms_rediroutdouble(t_list *av, char **env);
+void	ms_redirin(t_list *av, char **env);
+
+//ms_heredoc.c
+void	here_doc_loop(char *av, int *fd);
+void	here_doc(char *av, int ac);
 
 #endif
