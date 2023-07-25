@@ -1,36 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ms_cd.c                                            :+:      :+:    :+:   */
+/*   ms_pwd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aramon <aramon@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/12 20:39:38 by aramon            #+#    #+#             */
-/*   Updated: 2023/07/13 21:15:30 by aramon           ###   ########.fr       */
+/*   Created: 2023/07/12 20:38:53 by aramon            #+#    #+#             */
+/*   Updated: 2023/07/24 10:20:58 by aramon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../hfiles/minishell.h"
+#include "minishell.h"
 
-void	ms_cd(char *str)
+int	ms_pwd(t_tools *tools, t_cmd *simple_cmd)
 {
-	int		i;
-	int		j;
-	char	*path;
-
-	i = 2;
-	j = 0;
-	while (str[i] == ' ')
-		i++;
-	while (str[i + j] && str[i + j] != ' ')
-		j++;
-	path = malloc (sizeof(char) * (j + 1));
-	j = 0;
-	while (str[i + j] && str[i + j] != ' ')
-	{
-		path[j] = str[i + j];
-		j++;
-	}
-	path[j] = 0;
-	chdir(path);
+	(void) simple_cmd;
+	ft_putendl_fd(tools->pwd, STDOUT_FILENO);
+	return (EXIT_SUCCESS);
 }

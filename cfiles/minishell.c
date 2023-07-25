@@ -1,252 +1,72 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: rrodor <rrodor@student.42perpignan.fr>     +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/16 17:32:05 by rrodor            #+#    #+#             */
-/*   Updated: 2023/07/18 17:49:09 by rrodor           ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+#include "minishell.h"
 
-#include "../hfiles/minishell.h"
-
-void	ms_printlist(void *s)
+int	implement_tools(t_tools *tools)
 {
-	char **str;
-	int i;
-
-	str = s;
-	i = 0;
-	while (str[i])
-	{
-		ft_printf("%s", str[i]);
-		i++;
-	}
-	ft_printf("\n");
+	tools->simple_cmds = NULL;
+	tools->lexer_list = NULL;
+	tools->reset = 0;
+	tools->pid = NULL;
+	tools->heredoc = 0;
+	g_global.stop_heredoc = 0;
+	g_global.in_cmd = 0;
+	g_global.in_heredoc = 0;
+	parse_envp(tools);
+	init_signals();
+	return (1);
 }
 
-/*
-int	main()
+int	reset_tools(t_tools *tools)
 {
-	char	*str;
-	t_list	*list;
-	t_env	*env;
-	int		i;
-
-	env = NULL;
-	while (1)
-	{
-		str = readline("minishell >> ");
-		list = ms_parsing(str);
-		//ft_lstiter(list, ms_printlist);
-		add_history(str);
-
-		if (ft_strncmp(str, "exit", 4) == 0)
-		{
-			free(str);
-			break ;
-		}
-		else if (ft_strncmp(str, "export", 6) == 0)
-			ms_export(clean_command("export", str), &env);
-		else if (ft_strncmp(str, "unset", 5) == 0)
-			ms_unset(clean_command("unset", str), &env);
-		else if (ft_strncmp(str, "env", 3) == 0)
-			ms_env(env);
-		else if (ft_strncmp(str, "pwd", 3) == 0)
-			ms_pwd();
-		else if (ft_strncmp(str, "cd", 2) == 0)
-			ms_cd(str);
-		//else if (ft_strncmp(str, "echo", 4) == 0)
-		//	ms_echo(clean_command("echo", str));
-		else
-		{
-			ft_printf("command not found :%s\n", str);
-			free(str);
-		}
-	}
-	return (0);
-}
-*/
-
-/*
-// New main for testing
-// Only used to test pipes for now
-
-int main()
-{
-	int i;
-	int nb_cmds;
-	pid_t pids[nb_cmds];
-	int pipefds[nb_cmds - 1][2];
-
-	i = 0;
-	nb_cmds = 3;
-
-	// Create pipes
-	while (i < nb_cmds - 1)
-	{
-		if (pipe(pipefds[i] == -1))
-			exit(EXIT_FAILURE);
-		i++;
-	}
-
-	// Forking and executing commands
-	i = 0;
-	while (i)
-	{
-		// Fork
-		pids[i] = fork();
-		if (pids[i] == -1)
-			exit(EXIT_FAILURE);
-
-		// Child process
-		if (pids[i] == 0)
-		{
-			if (i != 0)
-			{
-				// Redirect input from previous cmd
-				dup2(pipefds[i - 1][0], STDIN_FILENO);
-				close(pipefds[i - 1][0]);
-				close(pipefds[i - 1][1]);
-			}
-
-			if (i != nb_cmds - 1)
-			{
-				// Redirect output to next cmd
-				dup2(pipefds[i][1], STDOUT_FILENO);
-				close(pipefds[i][0]);
-				close(pipefds[i][1]);
-			}
-
-			// Execute command
-			// ???
-		}
-		else // Parent process
-		{
-			// Close pipes
-			int j = 0;
-			while (j < nb_cmds - 1)
-			{
-				close(pipefds[j][0]);
-				close(pipefds[j][1]);
-				j++;
-			}
-
-			// Wait for child process to finish
-			int status;
-			waitpid(pids[i], &status, 0);
-			if (WIFEXITED(status))
-				printf("Child %d terminated with exit status %d\n", i, WEXITSTATUS(status));
-			else
-				printf("Child %d terminated abnormally\n", i);
-		}
-	}
-}*/
-
-void	init_minishell(t_minishell **minishell)
-{
-	t_minishell *m;
-
-	m = malloc(sizeof(t_minishell));
-	m->line = NULL;
-	m->parse = NULL;
-	m->env = NULL;
-	m->nb_cmd = 0; // From parsing
-	m->pids = malloc(sizeof(pid_t) * m->nb_cmd);
-	m->fds = malloc(sizeof(int) * (m->nb_cmd - 1) * 2);
-	*minishell = m;
+	cmd_clear(&tools->simple_cmds);
+	free(tools->args);
+	if (tools->pid)
+		free(tools->pid);
+	free_arr(tools->paths);
+	implement_tools(tools);
+	tools->reset = 1;
+	ms_loop(tools);
+	return (1);
 }
 
-/*int main()
+int	prepare_executor(t_tools *tools)
 {
-	int 		i;
-	t_minishell *ms;
-
-	init_minishell(&ms);
-	while (1)
+	signal(SIGQUIT, sigquit_handler);
+	g_global.in_cmd = 1;
+	if (tools->pipes == 0)
+		single_cmd(tools->simple_cmds, tools);
+	else
 	{
-		ms->line = readline("minishell~");
-		ms->parse = ms_parsing(ms->line);
-		//ft_lstiter(ms->parse, ms_printlist);
-		add_history(ms->line);
-		ms_redirect(ms->parse);
-		if (ft_strncmp(ms->line, "exit", 4) == 0)
-		{
-			free(ms->line);
-			break ;
-		}
-		else if (ft_strncmp(ms->line, "export", 6) == 0)
-			ms_export(clean_command("export", ms->line), &(ms->env));
-		else if (ft_strncmp(ms->line, "unset", 5) == 0)
-			ms_unset(clean_command("unset", ms->line), &(ms->env));
-		else if (ft_strncmp(ms->line, "env", 3) == 0)
-			ms_env((ms->env));
-		else if (ft_strncmp(ms->line, "pwd", 3) == 0)
-			ms_pwd();
-		else if (ft_strncmp(ms->line, "cd", 2) == 0)
-			ms_cd(ms->line);
-		else if (ft_strncmp(ms->line, "echo", 4) == 0)
-			ms_echo(clean_command("echo", ms->line), !hasFlag(ms->line, "-n"));
-		else
-		{
-			ft_printf("command not found :%s\n", ms->line);
-			free(ms->line);
-		}
+		tools->pid = ft_calloc(sizeof(int), tools->pipes + 2);
+		if (!tools->pid)
+			return (ft_error(1, tools));
+		executor(tools);
 	}
+	g_global.in_cmd = 0;
+	return (EXIT_SUCCESS);
+}
 
-	return (0);
-}*/
-
-/*int main()
+int	ms_loop(t_tools *tools)
 {
-	int 		i;
-	t_minishell *ms;
+	char	*tmp;
 
-	init_minishell(&ms);
-	while (1)
+	tools->args = readline("Minishell~");
+	tmp = ft_strtrim(tools->args, " ");
+	free(tools->args);
+	tools->args = tmp;
+	if (!tools->args)
 	{
-		ms->line = readline("minishell~");
-		ms->parse = ms_parsing(ms->line);
-		add_history(ms->line);
-		if (strstr(ms->line, ">"))
-		{
-			ft_printf("> found\n");
-			ms_redir_out(ms->line);
-		}
-		else if (strstr(ms->line, "<"))
-		{
-			ft_printf("< found\n");
-			ms_redir_in(ms->line);
-		}
-		else
-		{
-			ft_printf("command not found :%s\n", ms->line);
-			free(ms->line);
-		}
+		ft_putendl_fd("exit", STDOUT_FILENO);
+		exit(EXIT_SUCCESS);
 	}
-
-	return (0);
-}*/
-
-int main(int argc, char **argv, char **env)
-{
-	int 		i;
-	char		*str;
-	t_list		*list;
-
-	while (1)
-	{
-		str = readline("minishell~");
-		list = ms_parsing(str, env);
-		if (!list)
-			free(str);
-		else
-		{
-			add_history(str);
-			ms_central(list, env);
-		}
-	}
-	return (0);
+	if (tools->args[0] == '\0')
+		return (reset_tools(tools));
+	add_history(tools->args);
+	if (!count_quotes(tools->args))
+		return (ft_error(2, tools));
+	if (!token_reader(tools))
+		return (ft_error(1, tools));
+	parser(tools);
+	prepare_executor(tools);
+	reset_tools(tools);
+	return (1);
 }

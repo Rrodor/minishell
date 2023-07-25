@@ -1,32 +1,39 @@
-NAME= minishell
-SRC= minishell.c ms_parsing1.c ms_parsing2.c ms_parsing_utils.c ms_error.c ms_export.c ms_env_utils.c ms_env.c ms_unset.c ms_command_utils.c ms_pwd.c ms_cd.c ms_echo.c ms_redir.c ms_exec.c ms_pipe.c ms_redirect.c ms_heredoc.c ms_dollar.c
-SRCPATH= ./cfiles/
-OBJ= $(SRC:.c=.o)
-OBJS= $(addprefix $(OBJPATH), $(OBJ))
-SRCS= $(addprefix $(SRCPATH), $(SRC))
-OBJPATH= ./ofiles/
+CC := gcc
+SRCDIR := cfiles
+OBJDIR := ofiles
+BINDIR := bin
+INCDIR := hfiles
+LIBFTDIR := libft2
+NAME := minishell
+TARGET := $(BINDIR)/$(NAME)
+LIBFT := $(LIBFTDIR)/libft.a
+SRC := $(wildcard $(SRCDIR)/**/*.c) $(wildcard $(SRCDIR)/*.c)
+OBJ := $(patsubst $(SRCDIR)/%.c, $(OBJDIR)/%.o, $(SRC))
+FLAGS := -Wextra -Werror -Wall -O3
+CFLAGS := $(FLAGS) -I$(INCDIR) -I$(LIBFTDIR)
 
-CC= gcc #-Wall -Wextra -Werror
+.PHONY: all clean fclean re
 
-all: makelib $(NAME)
+all: $(TARGET)
 
-makelib:
-	make -C ./libft2
+$(TARGET): $(LIBFT) $(OBJ)
+	@mkdir -p $(BINDIR)
+	@$(CC) $(CFLAGS) -o $@ $(OBJ) $(LIBFT) -lreadline > /dev/null
+	@echo "$(NAME) successfully compiled in $(BINDIR)/"
 
-$(OBJPATH)%.o: $(SRCPATH)%.c
-	mkdir -p ofiles
-	$(CC) -I./hfiles -I./libft2 -lreadfile -o $@ -c $<
+$(OBJDIR)/%.o: $(SRCDIR)/%.c
+	@mkdir -p $(@D)
+	@$(CC) $(CFLAGS) -c $< -o $@
 
-$(NAME): $(OBJS)
-	$(CC) $(OBJS) -o $(NAME) -Llibft2 -lft -L/usr/lib -I./libft2 -I./hfiles -lreadline
+$(LIBFT):
+	@$(MAKE) -s -C $(LIBFTDIR)
 
 clean:
-	rm -f $(OBJS)
-	rm -rf ofiles
-	make clean -C ./libft2
+	@$(MAKE) -s -C $(LIBFTDIR) clean
+	@rm -rf $(OBJDIR)
+	@rm -rf $(BINDIR)
 
 fclean: clean
-	rm -f $(NAME)
-	make fclean -C ./libft2
+	@$(MAKE) -s -C $(LIBFTDIR) fclean
 
 re: fclean all
