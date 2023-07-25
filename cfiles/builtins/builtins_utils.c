@@ -8,7 +8,7 @@ void	change_path(t_tools *tools)
 	free(tools->old_pwd);
 	tools->old_pwd = tmp;
 	free(tools->pwd);
-	tools->pwd = getcwd(NULL, sizeof(NULL));
+	tools->pwd = ms_getpwd();
 }
 
 size_t	equal_sign(char *str)

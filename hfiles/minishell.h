@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aramon <aramon@student.42perpignan.fr>     +#+  +:+       +#+        */
+/*   By: rrodor <rrodor@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 15:13:44 by rrodor            #+#    #+#             */
-/*   Updated: 2023/07/25 20:15:56 by aramon           ###   ########.fr       */
+/*   Updated: 2023/07/25 22:54:11 by rrodor           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,13 +43,17 @@ typedef struct 	s_parser t_parser;
 # include "global.h"
 
 //minishell.c
-int             ms_loop(t_tools *tools);
-int             reset_tools(t_tools *tools);
+int				ms_loop(t_tools *tools);
+int				reset_tools(t_tools *tools);
 int				implement_tools(t_tools *tools);
 
 //signal.c
 void			init_signals(void);
 void			sigquit_handler(int sig);
 void			sigint_handler(int sig);
+
+//ms_name.c
+char			*ms_getname(char **envp);
+char			*ms_getuser(char **envp);
 
 #endif

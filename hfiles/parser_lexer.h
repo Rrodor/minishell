@@ -38,6 +38,7 @@ typedef struct 		s_tools
 	int				*pid;
 	int				heredoc;
 	int 			reset;
+	char			*name;
 }					t_tools;
 
 typedef struct 		s_cmd

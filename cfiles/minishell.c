@@ -49,7 +49,7 @@ int	ms_loop(t_tools *tools)
 {
 	char	*tmp;
 
-	tools->args = readline("Minishell~");
+	tools->args = readline(tools->name);
 	tmp = ft_strtrim(tools->args, " ");
 	free(tools->args);
 	tools->args = tmp;

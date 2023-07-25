@@ -12,6 +12,7 @@ int	main(int argc, char **argv, char **envp)
 		exit(0);
 	}
 	tools.envp = dup_arr(envp);
+	tools.name = ms_getuser(tools.envp);
 	find_pwd(&tools);
 	implement_tools(&tools);
 	ms_loop(&tools);
