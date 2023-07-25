@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   token.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rrodor <rrodor@student.42perpignan.fr>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/07/26 01:15:04 by rrodor            #+#    #+#             */
+/*   Updated: 2023/07/26 01:15:05 by rrodor           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 int	check_token(int c)
@@ -41,6 +53,6 @@ int	handle_token(char *str, int i, t_lexer **lexer_list)
 		if (!add_node(NULL, token, lexer_list))
 			return (-1);
 		return (1);
-	}	
+	}
 	return (0);
 }

@@ -1,32 +1,44 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   heredoc.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rrodor <rrodor@student.42perpignan.fr>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/07/26 01:15:50 by rrodor            #+#    #+#             */
+/*   Updated: 2023/07/26 01:49:25 by rrodor           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-int create_heredoc(t_lexer *heredoc, int quotes, t_tools *tools, char *file_name)
+int	create_heredoc(t_lexer *heredoc, int quotes, t_tools *tools, char *file_name)
 {
-    int		fd;
-    char	*line;
+	int		fd;
+	char	*line;
 	int		bytes_written;
 	int		newline_written;
 
-    fd = open(file_name, O_CREAT | O_RDWR | O_TRUNC, 0644);
-    line = readline("Enter the content for the here document (press Ctrl+D to finish):\n");
-    while (line && ft_strncmp(heredoc->str, line, ft_strlen(heredoc->str)) && !g_global.stop_heredoc)
-    {
-        if (quotes == 0)
-            line = expander_str(tools, line);
-        bytes_written = write(fd, line, ft_strlen(line));
-        if (bytes_written == -1)
-            perror("write");
-        newline_written = write(fd, "\n", 1);
-        if (newline_written == -1)
-            perror("write");
-        free(line);
-        line = readline(NULL);
-    }
-    free(line);
-    if (g_global.stop_heredoc || !line)
-        return (EXIT_FAILURE);
-    close(fd);
-    return (EXIT_SUCCESS);
+	fd = open(file_name, O_CREAT | O_RDWR | O_TRUNC, 0644);
+	line = readline("Enter the content for the here document (press Ctrl+D to finish):\n");
+	while (line && ft_strncmp(heredoc->str, line, ft_strlen(heredoc->str)) && !g_global.stop_heredoc)
+	{
+		if (quotes == 0)
+			line = expander_str(tools, line);
+		bytes_written = write(fd, line, ft_strlen(line));
+		if (bytes_written == -1)
+			perror("write");
+		newline_written = write(fd, "\n", 1);
+		if (newline_written == -1)
+			perror("write");
+		free(line);
+		line = readline(NULL);
+	}
+	free(line);
+	if (g_global.stop_heredoc || !line)
+		return (EXIT_FAILURE);
+	close(fd);
+	return (EXIT_SUCCESS);
 }
 
 int	ft_heredoc(t_tools *tools, t_lexer *heredoc, char *file_name)
@@ -72,7 +84,7 @@ int	send_heredoc(t_tools *tools, t_cmd *cmd)
 	start = cmd->redirs;
 	sl = EXIT_SUCCESS;
 	while (cmd->redirs)
-	{	
+	{
 		if (cmd->redirs->token == LESS_LESS)
 		{
 			if (cmd->hd_file_name)

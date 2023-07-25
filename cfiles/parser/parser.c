@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parser.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rrodor <rrodor@student.42perpignan.fr>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/07/26 01:14:34 by rrodor            #+#    #+#             */
+/*   Updated: 2023/07/26 01:51:10 by rrodor           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 void	print_parser(t_cmd simple_cmds);
@@ -48,7 +60,7 @@ int	handle_pipe_errors(t_tools *tools, int token)
 
 int	parser(t_tools *tools)
 {
-	t_cmd	    *node;
+	t_cmd		*node;
 	t_parser	parser_tools;
 
 	tools->simple_cmds = NULL;

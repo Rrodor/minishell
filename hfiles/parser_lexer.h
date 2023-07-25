@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parser_lexer.h                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rrodor <rrodor@student.42perpignan.fr>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/07/26 01:13:34 by rrodor            #+#    #+#             */
+/*   Updated: 2023/07/26 01:24:07 by rrodor           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef PARSER_LEXER_H
 # define PARSER_LEXER_H
 # include "minishell.h"
@@ -8,7 +20,7 @@
 # define LESS 4
 # define LESS_LESS 5
 
-typedef struct 		s_lexer
+typedef struct s_lexer
 {
 	char			*str;
 	int				token;
@@ -17,7 +29,7 @@ typedef struct 		s_lexer
 	struct s_lexer	*prev;
 }					t_lexer;
 
-typedef struct 		s_parser
+typedef struct s_parser
 {
 	t_lexer			*lexer_list;
 	t_lexer			*redirections;
@@ -25,7 +37,7 @@ typedef struct 		s_parser
 	struct s_tools	*tools;
 }					t_parser;
 
-typedef struct 		s_tools
+typedef struct s_tools
 {
 	char			*args;
 	char			**paths;
@@ -37,11 +49,11 @@ typedef struct 		s_tools
 	int				pipes;
 	int				*pid;
 	int				heredoc;
-	int 			reset;
+	int				reset;
 	char			*name;
 }					t_tools;
 
-typedef struct 		s_cmd
+typedef struct s_cmd
 {
 	char			**str;
 	int				(*builtin)(t_tools *, struct s_cmd *);

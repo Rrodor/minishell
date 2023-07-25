@@ -6,7 +6,7 @@
 /*   By: rrodor <rrodor@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 17:14:37 by rrodor            #+#    #+#             */
-/*   Updated: 2023/07/18 14:44:44 by rrodor           ###   ########.fr       */
+/*   Updated: 2023/07/26 01:36:15 by rrodor           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 # include <unistd.h>
 
 # ifndef BUFFER_SIZE
-# define BUFFER_SIZE 100
+#  define BUFFER_SIZE 100
 # endif
 
 char	*get_next_line(int fd);

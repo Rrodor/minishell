@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtins_utils.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rrodor <rrodor@student.42perpignan.fr>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/07/26 01:16:04 by rrodor            #+#    #+#             */
+/*   Updated: 2023/07/26 01:16:05 by rrodor           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 void	change_path(t_tools *tools)
@@ -5,7 +17,9 @@ void	change_path(t_tools *tools)
 	char	*tmp;
 
 	tmp = ft_strdup(tools->pwd);
-	free(tools->old_pwd);
+	tools->old_pwd = ft_strdup(tools->pwd);
+	if (tools->old_pwd)
+		free(tools->old_pwd);
 	tools->old_pwd = tmp;
 	free(tools->pwd);
 	tools->pwd = ms_getpwd();

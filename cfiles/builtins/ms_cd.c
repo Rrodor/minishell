@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ms_cd.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rrodor <rrodor@student.42perpignan.fr>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/07/26 01:16:10 by rrodor            #+#    #+#             */
+/*   Updated: 2023/07/26 01:16:11 by rrodor           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 char	*find_path_ret(char *str, t_tools *tools)
@@ -61,12 +73,15 @@ int	ms_cd(t_tools *tools, t_cmd *cmd)
 {
 	int		ret;
 
+	ret = 0;
+	tools->pwd = ms_getpwd();
 	if (!cmd->str[1])
 		ret = specific_path(tools, "HOME=");
 	else if (ft_strncmp(cmd->str[1], "-", 1) == 0)
 		ret = specific_path(tools, "OLDPWD=");
 	else
 	{
+		ft_printf("%s\n", cmd->str[1]);
 		ret = chdir(cmd->str[1]);
 		if (ret != 0)
 		{
@@ -74,10 +89,13 @@ int	ms_cd(t_tools *tools, t_cmd *cmd)
 			ft_putstr_fd(cmd->str[1], STDERR_FILENO);
 			perror(" ");
 		}
+		ft_printf("test\n");
 	}
 	if (ret != 0)
 		return (EXIT_FAILURE);
+	ft_printf("salut\n");
 	change_path(tools);
+	ft_printf("boss\n");
 	add_path_to_env(tools);
 	return (EXIT_SUCCESS);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aramon <aramon@student.42perpignan.fr>     +#+  +:+       +#+        */
+/*   By: rrodor <rrodor@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 21:37:01 by aramon            #+#    #+#             */
-/*   Updated: 2023/07/25 17:29:15 by aramon           ###   ########.fr       */
+/*   Updated: 2023/07/26 01:16:26 by rrodor           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ char	**loop_del_var(char **arr, char **rtn, char *str)
 				return (rtn);
 			}
 			j++;
-		}	
+		}
 		i++;
 	}
 	return (rtn);

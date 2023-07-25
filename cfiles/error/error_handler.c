@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   error_handler.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rrodor <rrodor@student.42perpignan.fr>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/07/26 01:15:54 by rrodor            #+#    #+#             */
+/*   Updated: 2023/07/26 01:38:26 by rrodor           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-void    parser_error(int error, t_tools *tools, t_lexer *lexer_list)
+void	parser_error(int error, t_tools *tools, t_lexer *lexer_list)
 {
 	lexer_clear(&lexer_list);
 	ft_error(error, tools);
